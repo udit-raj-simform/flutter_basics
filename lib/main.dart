@@ -55,21 +55,33 @@ class _HomeState extends State<Home> {
                 onSelected: (MyItems item) {
                   setState(() {
                     selectedItem = item;
+                    switch (selectedItem) {
+                      case MyItems.sliverAppbar:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SliverAppBarPage(),
+                          ),
+                        );
+
+                        break;
+                      case MyItems.itemTwo:
+                        debugPrint("item 2 called");
+                        break;
+                      case MyItems.itemThree:
+                        debugPrint("item 3 called");
+                        break;
+                      default:
+                        return;
+                    }
                   });
                 },
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<MyItems>>[
-                  PopupMenuItem<MyItems>(
-                      value: MyItems.sliverAppbar,
-                      onTap: (selectedItem == MyItems.sliverAppbar)
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SliverAppBarPage(),
-                              ),
-                            )
-                          : doNothing(),
-                      child: const Text('Sliver')),
+                itemBuilder: (BuildContext buildContext) =>
+                <PopupMenuEntry<MyItems>>[
+                  const PopupMenuItem<MyItems>(
+                    value: MyItems.sliverAppbar,
+                    child: Text('Sliver'),
+                  ),
                   const PopupMenuItem<MyItems>(
                     value: MyItems.itemTwo,
                     child: Text('Item 2'),
