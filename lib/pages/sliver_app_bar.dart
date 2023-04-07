@@ -26,31 +26,35 @@ class _SliverAppBarPageState extends State<SliverAppBarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[200],
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(double.maxFinite),
-        child: CustomScrollView(
-          scrollDirection: Axis.vertical,
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 200,
-              stretch: true,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset("assets/images/my_dog.jpeg"),
-                stretchModes: const <StretchMode>[
-                  StretchMode.zoomBackground,
-                  StretchMode.blurBackground,
-                ],
-              ),
+      backgroundColor: Colors.blueGrey,
+      body: CustomScrollView(
+        scrollDirection: Axis.vertical,
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.blueGrey,
+            foregroundColor: Colors.white,
+            elevation: 0.0,
+            automaticallyImplyLeading: true,
+            expandedHeight: 250,
+            stretch: true,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.asset("assets/images/my_dog.jpeg"),
+              stretchModes: const <StretchMode>[
+                StretchMode.zoomBackground,
+                StretchMode.blurBackground,
+              ],
+              title: const Text("SliverAppBar"),
+              centerTitle: true,
             ),
-            myWidgets.elementAt(0),
-            myWidgets.elementAt(0),
-            myWidgets.elementAt(0),
-            myWidgets.elementAt(0),
-            myWidgets.elementAt(0),
-            myWidgets.elementAt(0),
-          ],
-        ),
+          ),
+          myWidgets.elementAt(0),
+          myWidgets.elementAt(0),
+          myWidgets.elementAt(0),
+          myWidgets.elementAt(0),
+          myWidgets.elementAt(0),
+          myWidgets.elementAt(0),
+        ],
       ),
     );
   }
