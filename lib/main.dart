@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_basics/pages/app_bar.dart';
 import 'package:flutter_basics/pages/sliver_app_bar.dart';
 import 'package:flutter_basics/tabs/messages_tab.dart';
+import 'package:flutter_basics/tabs/stories.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-enum MyItems { sliverAppbar, itemTwo, itemThree }
+enum MyItems { sliverAppbar, appBar, itemThree }
 
 class Home extends StatefulWidget with PreferredSizeWidget {
   const Home({Key? key}) : super(key: key);
@@ -55,15 +57,19 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final GlobalKey<ScaffoldState> myScaffoldKey = GlobalKey<ScaffoldState>();
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         backgroundColor: Colors.blue.shade300,
+        key: myScaffoldKey,
+        drawer: const Drawer(),
         appBar: AppBar(
+            toolbarHeight: 56.0,
             backgroundColor: Colors.blue.shade300,
             foregroundColor: Colors.white,
             shadowColor: Colors.red,
-            surfaceTintColor: Colors.black38,
+            surfaceTintColor: Colors.yellowAccent,
             scrolledUnderElevation: 5.0,
             // best used with notificationPredicate
             primary: true,
@@ -78,7 +84,17 @@ class _HomeState extends State<Home> {
             notificationPredicate: (ScrollNotification notification) {
               return notification.depth == 1;
             },
-            leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+            // leading: IconButton(
+            //     onPressed: () {
+            //       myScaffoldKey.currentState!.openDrawer();
+            //     },
+            //     icon: const Icon(Icons.restaurant_menu_rounded)),
+            leading: Builder(
+                builder: (context) => IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    icon: const Icon(Icons.restaurant_menu_rounded))),
             // will override Scaffold.drawer
             title: (isSearchActive)
                 ? mySearchWidget(_controller)
@@ -112,8 +128,13 @@ class _HomeState extends State<Home> {
                         );
 
                         break;
-                      case MyItems.itemTwo:
-                        debugPrint("item 2 called");
+                      case MyItems.appBar:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AppBarPage(),
+                          ),
+                        );
                         break;
                       case MyItems.itemThree:
                         debugPrint("item 3 called");
@@ -130,8 +151,8 @@ class _HomeState extends State<Home> {
                     child: Text('Sliver'),
                   ),
                   const PopupMenuItem<MyItems>(
-                    value: MyItems.itemTwo,
-                    child: Text('Item 2'),
+                    value: MyItems.appBar,
+                    child: Text('AppBar'),
                   ),
                   const PopupMenuItem<MyItems>(
                     value: MyItems.itemThree,
@@ -170,10 +191,7 @@ class _HomeState extends State<Home> {
         body: const TabBarView(
           children: [
             MyMessagesTab(),
-            Icon(
-              Icons.location_history_rounded,
-              color: Colors.white,
-            ),
+            MyStoriesTab(),
             Icon(
               Icons.call_end_rounded,
               color: Colors.white,
